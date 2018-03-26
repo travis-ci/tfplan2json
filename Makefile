@@ -1,8 +1,11 @@
 NATIVE_BIN := build/$(shell go env GOOS)/$(shell go env GOARCH)/tfplan2json
 
-all: build
+.PHONY: all
+all: $(NATIVE_BIN)
 
-build: $(NATIVE_BIN)
+.PHONY: clean
+clean:
+	rm -rf ./build
 
-$(NATIVE_BIN):
+$(NATIVE_BIN): $(wildcard *.go)
 	go build -o $@ .
