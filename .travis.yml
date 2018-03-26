@@ -1,2 +1,4 @@
 language: go
 go: 1.9.4
+install: make deps
+before_script: make clean
