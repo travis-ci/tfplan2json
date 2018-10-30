@@ -7,16 +7,5 @@ all: $(NATIVE_BIN)
 clean:
 	$(RM) -r ./build
 
-.PHONY: distclean
-distclean: clean
-	$(RM) vendor/.deps-fetched
-
-.PHONY: deps
-deps: vendor/.deps-fetched
-
-vendor/.deps-fetched:
-	gvt rebuild
-	touch $@
-
 $(NATIVE_BIN): $(wildcard *.go)
 	go build -o $@ .
