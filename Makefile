@@ -5,11 +5,7 @@ all: $(NATIVE_BIN)
 
 .PHONY: clean
 clean:
-	rm -rf ./build
-
-.PHONY: deps
-deps:
-	go get github.com/hashicorp/terraform/terraform
+	$(RM) -r ./build
 
 $(NATIVE_BIN): $(wildcard *.go)
 	go build -o $@ .
