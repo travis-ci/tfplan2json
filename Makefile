@@ -5,11 +5,18 @@ all: $(NATIVE_BIN)
 
 .PHONY: clean
 clean:
-	rm -rf ./build
+	$(RM) -r ./build
+
+.PHONY: distclean
+distclean: clean
+	$(RM) vendor/.deps-fetched
 
 .PHONY: deps
-deps:
-	go get github.com/hashicorp/terraform/terraform
+deps: vendor/.deps-fetched
+
+vendor/.deps-fetched:
+	gvt rebuild
+	touch $@
 
 $(NATIVE_BIN): $(wildcard *.go)
 	go build -o $@ .

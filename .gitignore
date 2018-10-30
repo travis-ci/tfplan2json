@@ -1,1 +1,4 @@
+*env
 build/
+vendor/.deps-fetched
+vendor/github.com/

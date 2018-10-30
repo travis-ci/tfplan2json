@@ -9,11 +9,16 @@ import (
 	"os"
 
 	"github.com/hashicorp/terraform/terraform"
+	tfversion "github.com/hashicorp/terraform/version"
 )
 
 func main() {
 	flag.Usage = func() {
-		fmt.Printf("Usage: tfplan2json\n\nExpects a tfplan via stdin\n")
+		fmt.Printf(`Usage: tfplan2json
+terraform version: %s
+
+Expects a tfplan via stdin
+`, tfversion.Version)
 	}
 	flag.Parse()
 
