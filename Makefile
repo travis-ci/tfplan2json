@@ -9,7 +9,7 @@ clean:
 
 .PHONY: deps
 deps:
-	go get github.com/hashicorp/terraform/terraform
+	go get -u github.com/hashicorp/terraform/terraform
 
 $(NATIVE_BIN): $(wildcard *.go)
 	go build -o $@ .

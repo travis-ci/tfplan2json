@@ -14,7 +14,9 @@ import (
 
 func main() {
 	flag.Usage = func() {
-		fmt.Printf("Usage: tfplan2json <plan-file>\n\nBuilt with terraform %s\n", version.String())
+		fmt.Printf(`Usage: tfplan2json <plan-file>
+terraform version: %s
+`, version.String())
 	}
 	flag.Parse()
 
