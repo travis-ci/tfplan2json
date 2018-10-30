@@ -8,30 +8,38 @@ import (
 	"log"
 	"os"
 
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform/plans/planfile"
+	"github.com/hashicorp/terraform/version"
 )
 
 func main() {
 	flag.Usage = func() {
-		fmt.Printf("Usage: tfplan2json\n\nExpects a tfplan via stdin\n")
+		fmt.Printf("Usage: tfplan2json <plan-file>\n\nBuilt with terraform %s\n", version.String())
 	}
 	flag.Parse()
 
-	stat, err := os.Stdin.Stat()
-	if err != nil {
+	if len(os.Args) == 1 {
 		flag.Usage()
-		log.Fatalf("Error encountered when checking stdin: %s", err)
+		log.Fatal("You must pass a plan file as first argument!")
 	}
 
-	if stat.Size() <= 0 {
-		flag.Usage()
-		log.Fatal("You must pass a plan file via stdin!")
-	}
+	planFile := os.Args[1]
 
-	plan, err := terraform.ReadPlan(os.Stdin)
+	fi, err := os.Stat(planFile)
 	if err != nil {
 		flag.Usage()
-		log.Fatalf("Error reading plan! %s\n\nAre you sure the plan file was passed?", err)
+		log.Fatalf("Error encountered when checking plan file: %s", err)
+	}
+
+	if fi.Size() <= 0 {
+		flag.Usage()
+		log.Fatal("Plan file %s is empty", planFile)
+	}
+
+	plan, err := planfile.Open(planFile)
+	if err != nil {
+		flag.Usage()
+		log.Fatalf("Error reading plan! %s", err)
 	}
 
 	encoded, err := json.MarshalIndent(plan, "", "  ")
